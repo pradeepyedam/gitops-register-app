@@ -1,7 +1,7 @@
 pipeline {
     agent { label "agent-11" }
     environment {
-              APP_NAME = "register-app-pipeline"
+        APP_NAME = "register-app-pipeline"
     }
 
     stages {
@@ -12,16 +12,16 @@ pipeline {
         }
 
         stage("Checkout from SCM") {
-               steps {
-                   git branch: 'main', credentialsId: 'github', url: 'https://github.com/pradeepyedam/gitops-register-app'
-               }
+            steps {
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/pradeepyedam/gitops-register-app'
+            }
         }
 
         stage("Update the Deployment Tags") {
             steps {
                 sh """
                    cat deployment.yaml
-                   sed -i 's/${APP_NAME}.*/${APP_NAME}:${IMAGE_TAG}/g' deployment.yaml
+                   sed -i 's|${APP_NAME}.*|${APP_NAME}:${IMAGE_TAG}|g' deployment.yaml
                    cat deployment.yaml
                 """
             }
@@ -29,18 +29,17 @@ pipeline {
 
         stage("Push the changed deployment file to Git") {
             steps {
-                sh """
-                  git config --global user.name "pradeepyedam"
-                  git config --global user.email "pradeep@sonixhub.com"
-                  git add deployment.yaml
-                  git commit -m "Updated Deployment Manifest"
-                  git push origin main
-                """
-                withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                  sh "git https://github.com/pradeepyedam/gitops-register-app main"
+                script {
+                    gitUser = credentials('github')
+                    sh """
+                      git config --global user.name "pradeepyedam"
+                      git config --global user.email "pradeep@sonixhub.com"
+                      git add deployment.yaml
+                      git commit -m "Updated Deployment Manifest"
+                      git push origin main
+                    """
                 }
             }
         }
-      
     }
 }
