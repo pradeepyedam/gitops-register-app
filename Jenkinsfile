@@ -30,10 +30,11 @@ pipeline {
         stage("Push the changed deployment file to Git") {
             steps {
                 sh """
-                   git config --global user.name "pradeepyedam"
-                   git config --global user.email "pradeep@sonixhub.com"
-                   git add deployment.yaml
-                   git commit -m "Updated Deployment Manifest"
+                  git config --global user.name "pradeepyedam"
+                  git config --global user.email "pradeep@sonixhub.com"
+                  git add deployment.yaml
+                  git commit -m "Updated Deployment Manifest"
+                  git push origin main
                 """
                 withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
                   sh "git https://github.com/pradeepyedam/gitops-register-app main"
