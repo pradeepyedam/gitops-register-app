@@ -1,4 +1,4 @@
-upipeline {
+pipeline {
     agent { label "agent-11" }
     environment {
               APP_NAME = "register-app-pipeline"
