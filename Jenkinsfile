@@ -1,4 +1,4 @@
-pipeline {
+upipeline {
     agent { label "agent-11" }
     environment {
               APP_NAME = "register-app-pipeline"
@@ -30,8 +30,8 @@ pipeline {
         stage("Push the changed deployment file to Git") {
             steps {
                 sh """
-                  git config --global user.name "pradeepyedam"
-                  git config --global user.email "pradeep@sonixhub.com"
+                  git config --global user.name "venu"
+                  git config --global user.email "venu@sonixhub.com"
                   git add deployment.yaml
                   git commit -m "Updated Deployment Manifest"
                   git push origin main
