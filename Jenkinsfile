@@ -32,7 +32,7 @@ pipeline {
                 script {
                     gitUser = credentials('github')
                     sh """
-                      def pradeepProperty = someObject?.pradeepyedam
+                      def pradeepProperty = someObject?.PradeepYedam
                       //git config --global user.name "${gitUser?.PradeepYedam}"
                       git config --global user.email "${gitUser?.pradeep}@sonixhub."
                       git add deployment.yaml
